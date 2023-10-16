@@ -1,0 +1,1 @@
+This repository contains my work on the Udemy Web Development Course hosted by Angela Yu. I am taking the course to roughen out my edges in frontend development and Javascript.
