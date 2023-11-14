@@ -40,9 +40,12 @@ app.post("/jokes", (req, res) => {
   jokes.push(addedJoke);
   // return the array object in json
   res.json(jokes[parseInt(addedJoke.id) - 1]);
-})
+});
 
 //5. PUT a joke
+app.put("/jokes/:id", (req, res) => {
+  const id = req.params.id;
+});
 
 //6. PATCH a joke
 
