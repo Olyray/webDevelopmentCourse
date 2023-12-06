@@ -1,50 +1,55 @@
 import React, { useState } from "react";
+import ToDoItem from "./ToDoItem";
+import InputArea from "./InputArea";
 
 function App() {
-  const [contact, setContact] = useState({
-    fName: "",
-    lName: "",
-    email: ""
-  });
+  const [inputText, setInputText] = useState("");
+  const [items, setItems] = useState([]);
 
-  function showName (event) {
-    const { name, value } = event.target
-    
-    setContact((prevValue) => {
-      if (name === "fName") {
-        return {
-          fName: value,
-          lName: prevValue.lName,
-          email: prevValue.email
-      };
-      } else if (name === "lName") {
-        return {
-          fName: prevValue.fName,
-          lName: value,
-          email: prevValue.email
-        };
-      } else if (name === "email") {
-        return {
-          fName: prevValue.fName,
-          lName: prevValue.lName,
-          email: value
-        }
-      }
-    })
+  function handleChange(event) {
+    console.log("Handling change");
+    const newValue = event.target.value;
+    setInputText(newValue);
+  }
+
+  function addItem() {
+    console.log("Adding item");
+    setItems(prevItems => {
+      return [...prevItems, inputText];
+    });
+    setInputText("");
+  }
+
+  function deleteItem(id) {
+    setItems(prevItems => {
+      return prevItems.filter((item, index) => {
+        return index !== id;
+      });
+    });
   }
 
   return (
     <div className="container">
-      <h1>
-        Hello {contact.fName} {contact.lName}
-      </h1>
-      <p>{contact.email}</p>
-      <form>
-        <input onChange={showName} name="fName" placeholder="First Name" value={contact.fName} />
-        <input onChange={showName} name="lName" placeholder="Last Name" value={contact.lName}/>
-        <input onChange={showName} name="email" placeholder="Email" value={contact.email}/>
-        <button>Submit</button>
-      </form>
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+      <InputArea 
+        onChange={handleChange}
+        value={inputText}
+        onClick={addItem}
+      />
+      <div>
+        <ul>
+          {items.map((todoItem, index) => (
+            <ToDoItem
+              key={index}
+              id={index}
+              text={todoItem}
+              onChecked={deleteItem}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
